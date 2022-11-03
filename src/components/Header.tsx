@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from 'antd';
 import Icon from './Icon/Icon';
 import styled from 'styled-components';
+import { history } from 'umi';
+
 const HeaderContainer = styled.div`
   width: 100%;
   height: 60px;
@@ -35,7 +37,11 @@ const HeaderLeft = styled.div`
 const ButtonMargin = styled(Button)`
   margin-right: 10px;
 `;
-const Header = () => {
+const Header: React.FC<any> = (props) => {
+  const handelCLick = (routePath: string) => {
+    console.log(props);
+    history.push(routePath);
+  };
   return (
     <HeaderContainer>
       <HeaderLeft>
@@ -43,13 +49,20 @@ const Header = () => {
           <Icon iconName="icon-tuzijiao" />
         </div>
         <ul>
-          <li>首页</li>
-          <li>历史</li>
+          <li onClick={() => handelCLick('/home')}>首页</li>
+          <li onClick={() => handelCLick('/home/history')}>历史</li>
         </ul>
       </HeaderLeft>
       <div>
-        <ButtonMargin type="primary">登录</ButtonMargin>
-        <ButtonMargin type="primary">注册</ButtonMargin>
+        <ButtonMargin type="primary" onClick={() => handelCLick('/home/login')}>
+          登录
+        </ButtonMargin>
+        <ButtonMargin
+          type="primary"
+          onClick={() => handelCLick('/home/register')}
+        >
+          注册
+        </ButtonMargin>
       </div>
     </HeaderContainer>
   );

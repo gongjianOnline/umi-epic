@@ -9,6 +9,7 @@ export default defineConfig({
       src: '/js/iconfont.js',
     },
   ],
+  mfsu: {},
   // routes: [
   //   { path: '/', component: '@/pages/index' },
   // ],

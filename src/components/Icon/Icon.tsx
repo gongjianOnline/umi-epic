@@ -1,29 +1,22 @@
-import React from "react"
-import styled from "styled-components"
-
-const scriptElem = document.createElement("script")
-scriptElem.src="./iconfont.js"
-document.body.appendChild(scriptElem)
+import React from 'react';
+import styled from 'styled-components';
 
 const SVG = styled.svg`
-  .icon {
-    width: 1em; height: 1em;
-    vertical-align: -0.15em;
-    fill: currentColor;
-    overflow: hidden;
-  }
-`
-
+  width: 2rem;
+  height: 2rem;
+  overflow: hidden;
+  color: #fff;
+`;
 interface Props {
-  iconName:String,
-  [propsName:string]:any
+  iconName: String;
+  [propsName: string]: any;
 }
 
-const Icon:React.FC<Props> = (props)=>{
+const Icon: React.FC<Props> = (props) => {
   return (
-    <SVG className="icon" aria-hidden="true">
-      <use xlinkHref={`#${props.iconName}`}></use>
+    <SVG aria-hidden="true">
+      <use xlinkHref="#icon-tuzijiao"></use>
     </SVG>
-  )
-}
-export default Icon
+  );
+};
+export default Icon;

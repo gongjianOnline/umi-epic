@@ -32,6 +32,7 @@ const Register: React.FC<any> = () => {
           rules={[{ required: true, message: '请输入用户名' }]}
         >
           <Input
+            autoComplete="new-password"
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="用户名"
           />
@@ -41,6 +42,7 @@ const Register: React.FC<any> = () => {
           rules={[{ required: true, message: '请输入密码' }]}
         >
           <Input
+            autoComplete="new-password"
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="密码"
@@ -60,6 +62,7 @@ const Register: React.FC<any> = () => {
           ]}
         >
           <Input
+            autoComplete="new-password"
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="请重复输入密码"

@@ -1,7 +1,9 @@
 import React, { createRef } from 'react';
 import styled from 'styled-components';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { User } from '../../util/serverLess';
+import { history } from 'umi';
 const LoginContainer = styled.div`
   width: 600px;
   margin: 20px auto;
@@ -16,12 +18,29 @@ const ButtonContainer = styled(Button)`
   width: 100%;
 `;
 interface FormLabel {
-  username: String;
-  passwrod: String;
+  username: string;
+  password: string;
 }
 const Register: React.FC<any> = () => {
+  const key = 'updatable';
   const onFinish = (value: FormLabel) => {
     console.log('success', value);
+    message.loading({ content: 'Loading...', key });
+    User.register(value.username, value.password).then(
+      (response) => {
+        console.log('注册成功response', response);
+        message.success({
+          content: '注册成功,自动跳转到登录界面...',
+          key,
+          duration: 3,
+        });
+        history.replace('/home/login');
+      },
+      (err) => {
+        console.log('注册失败', err);
+        message.error({ content: '注册失败', key, duration: 3 });
+      },
+    );
   };
   return (
     <LoginContainer>

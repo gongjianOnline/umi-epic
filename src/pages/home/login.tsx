@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { User } from '../../util/serverLess';
+import { connect, useDispatch } from 'dva';
+import { history } from 'umi';
 const LoginContainer = styled.div`
   width: 600px;
   margin: 20px auto;
@@ -16,12 +19,36 @@ const ButtonContainer = styled(Button)`
   width: 100%;
 `;
 interface FormLabel {
-  username: String;
-  passwrod: String;
+  username: string;
+  password: string;
+}
+interface ResponseConstraint {
+  shortId: string;
+  username: string;
+  [propsName: string]: any;
 }
 const Login: React.FC<any> = () => {
+  const key = 'updatable';
+  const dispatch = useDispatch();
   const onFinish = (value: FormLabel) => {
-    console.log('success', value);
+    message.loading({ content: 'Loading...', key });
+    User.Login(value.username, value.password).then(
+      (response: any) => {
+        const { attributes } = response;
+        window.localStorage.setItem('userInfo', JSON.stringify(attributes));
+        dispatch({
+          type: 'user/userConfig',
+          payload: {
+            userName: attributes.username,
+            userId: attributes.shortId,
+          },
+        });
+        history.replace('/home');
+      },
+      (err) => {
+        message.error({ content: '登录失败', key, duration: 2 });
+      },
+    );
   };
   return (
     <LoginContainer>
@@ -66,4 +93,4 @@ const Login: React.FC<any> = () => {
     </LoginContainer>
   );
 };
-export default Login;
+export default connect((state: any) => state.user)(Login);

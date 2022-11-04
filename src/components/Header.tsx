@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import Icon from './Icon/Icon';
 import styled from 'styled-components';
 import { history } from 'umi';
+import { connect } from 'dva';
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -39,9 +40,9 @@ const ButtonMargin = styled(Button)`
 `;
 const Header: React.FC<any> = (props) => {
   const handelCLick = (routePath: string) => {
-    console.log(props);
     history.push(routePath);
   };
+
   return (
     <HeaderContainer>
       <HeaderLeft>
@@ -53,18 +54,25 @@ const Header: React.FC<any> = (props) => {
           <li onClick={() => handelCLick('/home/history')}>历史</li>
         </ul>
       </HeaderLeft>
-      <div>
-        <ButtonMargin type="primary" onClick={() => handelCLick('/home/login')}>
-          登录
-        </ButtonMargin>
-        <ButtonMargin
-          type="primary"
-          onClick={() => handelCLick('/home/register')}
-        >
-          注册
-        </ButtonMargin>
-      </div>
+      {props.userName ? (
+        <div>欢迎用户 {props.userName}</div>
+      ) : (
+        <div>
+          <ButtonMargin
+            type="primary"
+            onClick={() => handelCLick('/home/login')}
+          >
+            登录
+          </ButtonMargin>
+          <ButtonMargin
+            type="primary"
+            onClick={() => handelCLick('/home/register')}
+          >
+            注册
+          </ButtonMargin>
+        </div>
+      )}
     </HeaderContainer>
   );
 };
-export default Header;
+export default connect((state: any) => state.user)(Header);

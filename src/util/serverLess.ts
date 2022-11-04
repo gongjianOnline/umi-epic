@@ -40,4 +40,38 @@ const User = {
   },
 };
 
-export { User };
+const Upload = {
+  add(file: any, filename: string) {
+    const item = new AV.Object('Image');
+    const avFile = new AV.File(filename, file);
+    item.set('filename', filename);
+    item.set('owner', AV.User.current());
+    item.set('url', avFile);
+    return new Promise((resolve, reject) => {
+      item.save().then(
+        (serveFile) => {
+          resolve(serveFile);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+    });
+  },
+  find() {
+    const query = new AV.Query('Image');
+    query.include('owner');
+    query.equalTo('owner', AV.User.current());
+    return new Promise((resolve, reject) => {
+      query
+        .find()
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+};
+export { User, Upload };
